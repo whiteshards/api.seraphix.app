@@ -20,7 +20,6 @@ router.get('/', authenticateApiToken, async (req, res) => {
     }
     
     const keysystems = await findKeysystemsByOwner(user.discord_id);
-    
     if (!keysystems || keysystems.length === 0) {
       return res.status(404).json({
         error: 'not_found',
@@ -40,14 +39,13 @@ router.get('/', authenticateApiToken, async (req, res) => {
     const filteredKeysystem = {
       id: targetKeysystem.id,
       name: targetKeysystem.name,
-      maxKeyPerforum: targetKeysystem.maxKeyPerforum,
-      keyTier: targetKeysystem.keyTier,
-      keyCooldown: targetKeysystem.keyCooldown,
-      maxKeyLeft: targetKeysystem.maxKeyLeft,
-      webhookUrl: targetKeysystem.webhookUrl,
       active: targetKeysystem.active,
       createdAt: targetKeysystem.createdAt,
-      checkpoints: targetKeysystem.checkpoints ? targetKeysystem.checkpoints.length : 0
+      settings: {
+        maxKeyPerson: targetKeysystem.maxKeyPerson,
+        keyCooldown: targetKeysystem.keyCooldown, 
+        webhookUrl: targetKeysystem.webhookUrl,
+        checkpoints: targetKeysystem.checkpoints ? targetKeysystem.checkpoints.length : 0},
     };
     
     const endTime = process.hrtime.bigint();
