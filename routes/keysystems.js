@@ -191,7 +191,7 @@ router.post('/keys', createRateLimit(100), async (req, res) => {
   }
 });
 
-router.patch('/keys/reset', authenticateApiToken, async (req, res) => {
+router.patch('/keys/reset', createRateLimit(5), authenticateApiToken, async (req, res) => {
   const startTime = process.hrtime.bigint();
   
   try {
