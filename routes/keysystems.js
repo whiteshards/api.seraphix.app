@@ -28,7 +28,7 @@ router.get('/', authenticateApiToken, async (req, res) => {
       });
     }
     
-    const targetKeysystem = keysystems.find(ks => ks._id.toString() === keysystemid);
+    const targetKeysystem = keysystems.find(ks => ks.id === keysystemid);
     
     if (!targetKeysystem) {
       return res.status(404).json({
@@ -38,7 +38,7 @@ router.get('/', authenticateApiToken, async (req, res) => {
     }
     
     const filteredKeysystem = {
-      _id: targetKeysystem._id,
+      id: targetKeysystem.id,
       name: targetKeysystem.name,
       maxKeyPerforum: targetKeysystem.maxKeyPerforum,
       keyTier: targetKeysystem.keyTier,
@@ -47,8 +47,7 @@ router.get('/', authenticateApiToken, async (req, res) => {
       webhookUrl: targetKeysystem.webhookUrl,
       active: targetKeysystem.active,
       createdAt: targetKeysystem.createdAt,
-      checkpoints: targetKeysystem.checkpoints ? targetKeysystem.checkpoints.length : 0,
-      owner: targetKeysystem.owner
+      checkpoints: targetKeysystem.checkpoints ? targetKeysystem.checkpoints.length : 0
     };
     
     const endTime = process.hrtime.bigint();
