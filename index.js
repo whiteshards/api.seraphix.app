@@ -1,4 +1,3 @@
-
 import express from 'express';
 
 const app = express();
@@ -9,9 +8,8 @@ app.get('/v1/status', (req, res) => {
   const startTime = process.hrtime.bigint();
   
   const response = {
-    status: 'operational',
-    service: 'seraphix-sdk-api',
-    version: '1.0.0',
+    message: 'API is Running',
+    version: '1',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     environment: process.env.NODE_ENV || 'development'
