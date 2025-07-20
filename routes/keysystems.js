@@ -112,19 +112,17 @@ router.post('/keys', createRateLimit(100), async (req, res) => {
     }
     console.log(keysystem)
     let foundKey = null;
-    let sessionIndex = -1;
+    let sessionId = null;
     let keyIndex = -1;
     
     if (keysystem.keys) {
-      //console.log(keysystem.keys.length)
-      for (let i = 0; i < keysystem.keys.length; i++) {
-        const session = keysystem.keys[i];
+      for (const [sessionIdKey, session] of Object.entries(keysystem.keys)) {
         if (session.keys && Array.isArray(session.keys)) {
           for (let j = 0; j < session.keys.length; j++) {
             const keyObj = session.keys[j];
             if (keyObj.value === key) {
               foundKey = keyObj;
-              sessionIndex = i;
+              sessionId = sessionIdKey;
               keyIndex = j;
               break;
             }
