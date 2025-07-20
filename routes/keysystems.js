@@ -57,7 +57,7 @@ router.get('/:keysystemid', authenticateApiToken, async (req, res) => {
     const response = {
       message: 'Keysystem retrieved successfully',
       data: {
-        keysystems: [filteredKeysystem]
+        keysystem: filteredKeysystem
       },
       executionTime: `${executionTime.toFixed(2)}ms`
     };
