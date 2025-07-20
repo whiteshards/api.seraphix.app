@@ -110,12 +110,13 @@ router.post('/keys', createRateLimit(100), async (req, res) => {
         executionTime: `${executionTime.toFixed(2)}ms`
       });
     }
-    
+    console.log(keysystem)
     let foundKey = null;
     let sessionIndex = -1;
     let keyIndex = -1;
     
-    if (keysystem.keys && Array.isArray(keysystem.keys)) {
+    if (keysystem.keys) {
+      //console.log(keysystem.keys.length)
       for (let i = 0; i < keysystem.keys.length; i++) {
         const session = keysystem.keys[i];
         if (session.keys && Array.isArray(session.keys)) {
