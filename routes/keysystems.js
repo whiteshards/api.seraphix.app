@@ -5,17 +5,17 @@ import { findKeysystemsByOwner } from '../lib/database.js';
 
 const router = express.Router();
 
-router.get('/:keysystemid', authenticateApiToken, async (req, res) => {
+router.get('/', authenticateApiToken, async (req, res) => {
   const startTime = process.hrtime.bigint();
   
   try {
-    const { keysystemid } = req.params;
+    const { id: keysystemid } = req.query;
     const user = req.user;
     
     if (!keysystemid) {
       return res.status(400).json({
         error: 'bad_request',
-        message: 'Keysystem ID is required'
+        message: 'Keysystem ID query parameter is required'
       });
     }
     
@@ -62,7 +62,7 @@ router.get('/:keysystemid', authenticateApiToken, async (req, res) => {
       executionTime: `${executionTime.toFixed(2)}ms`
     };
     
-    console.log(`\x1b[32m✓\x1b[0m GET /v1/keysystems/${keysystemid} - \x1b[36m${user.username}\x1b[0m - \x1b[33m${response.executionTime}\x1b[0m`);
+    console.log(`\x1b[32m✓\x1b[0m GET /v1/keysystems?id=${keysystemid} - \x1b[36m${user.username}\x1b[0m - \x1b[33m${response.executionTime}\x1b[0m`);
     
     res.status(200).json(response);
     
