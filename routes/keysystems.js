@@ -99,10 +99,10 @@ router.post('/keys', createRateLimit(100), async (req, res) => {
       });
     }
     
-    if (hwid.length > 150) {
+    if (hwid.length > 300) {
       return res.status(400).json({
         error: 'bad_request',
-        message: 'HWID must not exceed 150 characters'
+        message: 'HWID must not exceed 300 characters'
       });
     }
     
