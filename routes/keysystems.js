@@ -83,7 +83,7 @@ router.post('/keys', createRateLimit(100), async (req, res) => {
   
   try {
     const { id: keysystemId } = req.query;
-    const { key, hwid } = req.body;
+    const { key, hwid, discord_id } = req.body;
     
     if (!keysystemId) {
       return res.status(400).json({
@@ -97,6 +97,30 @@ router.post('/keys', createRateLimit(100), async (req, res) => {
         error: 'bad_request',
         message: 'Key and hwid must be strings'
       });
+    }
+    
+    if (hwid.length > 150) {
+      return res.status(400).json({
+        error: 'bad_request',
+        message: 'HWID must not exceed 150 characters'
+      });
+    }
+    
+    if (discord_id !== undefined) {
+      if (typeof discord_id !== 'number' && typeof discord_id !== 'string') {
+        return res.status(400).json({
+          error: 'bad_request',
+          message: 'Discord ID must be a number or string'
+        });
+      }
+      
+      const discordIdStr = discord_id.toString();
+      if (discordIdStr.length > 48) {
+        return res.status(400).json({
+          error: 'bad_request',
+          message: 'Discord ID must not exceed 48 characters'
+        });
+      }
     }
     
     const keysystem = await findKeysystemById(keysystemId);
@@ -160,7 +184,7 @@ router.post('/keys', createRateLimit(100), async (req, res) => {
     }
     
     if (!foundKey.hwid) {
-      await updateKeyHwid(keysystemId, key, hwid);
+      await updateKeyHwid(keysystemId, key, hwid, discord_id);
       console.log(`\x1b[32m✓\x1b[0m POST /v1/keysystems/keys?id=${keysystemId} - KEY_VALID (HWID_BOUND) - \x1b[33m${executionTime.toFixed(2)}ms\x1b[0m`);
     } else if (foundKey.hwid !== hwid) {
       console.log(`\x1b[31m✗\x1b[0m POST /v1/keysystems/keys?id=${keysystemId} - KEY_HWID_LOCKED - \x1b[33m${executionTime.toFixed(2)}ms\x1b[0m`);
@@ -169,6 +193,9 @@ router.post('/keys', createRateLimit(100), async (req, res) => {
         executionTime: `${executionTime.toFixed(2)}ms`
       });
     } else {
+      if (discord_id !== undefined) {
+        await updateKeyHwid(keysystemId, key, hwid, discord_id);
+      }
       console.log(`\x1b[32m✓\x1b[0m POST /v1/keysystems/keys?id=${keysystemId} - KEY_VALID - \x1b[33m${executionTime.toFixed(2)}ms\x1b[0m`);
     }
     
