@@ -1,3 +1,4 @@
+require('dotenv').config()
 import express from 'express';
 import { MongoClient } from 'mongodb';
 import keysystemsRoutes from './routes/keysystems.js';
