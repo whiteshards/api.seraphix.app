@@ -1,12 +1,12 @@
-entrypoint = "index.js"
-modules = ["nodejs-22"]
+modules = ["nodejs-20"]
 hidden = [".config", "package-lock.json"]
+run = "npm run start"
 
 [nix]
 channel = "stable-24_05"
 
 [deployment]
-run = ["node", "index.js"]
+run = ["sh", "-c", "npm run start"]
 deploymentTarget = "cloudrun"
 
 [[ports]]
