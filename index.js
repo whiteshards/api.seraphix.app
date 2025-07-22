@@ -1,9 +1,9 @@
-require('dotenv').config()
+import dotenv from "dotenv";
 import express from 'express';
 import { MongoClient } from 'mongodb';
 import keysystemsRoutes from './routes/keysystems.js';
 import userRoutes from './routes/user.js';
-
+dotenv.config()
 const app = express();
 app.use(express.json());
 
