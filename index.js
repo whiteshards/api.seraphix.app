@@ -59,5 +59,5 @@ app.use('*', (req, res) => {
 });
 
 app.listen(4000, '0.0.0.0', () => {
-  console.log('\x1b[36mSeraphix SDK API\x1b[0m - \x1b[32mServer running on port 3000\x1b[0m');
+  console.log('\x1b[36mSeraphix SDK API\x1b[0m - \x1b[32mServer running on port 4000\x1b[0m');
 });
